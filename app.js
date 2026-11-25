@@ -84,7 +84,7 @@
 
   function capa() {
     app.innerHTML = '<section class="tela capa">' + MARCA +
-      '<img class="capa-img" src="img/capa.webp" alt="Mulher sentada no chão do quarto, encostada na cama, pensativa" width="350" height="300" fetchpriority="high">' +
+      '<img class="capa-img" src="img/capa-720.webp" srcset="img/capa.webp 360w, img/capa-720.webp 720w" sizes="(max-width:430px) 100vw, 400px" alt="Mulher sentada no chão do quarto, encostada na cama, pensativa" width="720" height="720" fetchpriority="high">' +
       '<div style="display:flex;flex-direction:column;gap:10px"><span class="selo">TESTE GRATUITO · 2 MINUTOS</span>' +
       '<h1>Qual é a sua ferida no amor?</h1>' +
       '<p class="sub">8 perguntas rápidas. É só tocar na resposta. No final, você vê o retrato da sua vida amorosa hoje.</p></div>' +
