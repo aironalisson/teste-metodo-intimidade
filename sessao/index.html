@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sua compra deu certo · Método Intimidade</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.metodointimidade.com.br">
+<link rel="preconnect" href="https://js.stripe.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<main class="pagina" id="pagina">
+  <div id="marca"></div>
+  <div id="espera" class="carregando"><div class="giro"></div><p id="espera-txt">Confirmando o seu pagamento...</p></div>
+
+  <div id="conteudo" class="oculto" style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="selo">SUA COMPRA DEU CERTO</span>
+      <h1 style="font-size:36px;line-height:1.08">O seu teste já está garantido.</h1>
+      <p class="suave" style="font-size:17px;line-height:1.5">Antes de abrir, assista a este vídeo. Ele só aparece agora.</p>
+    </div>
+    <div class="video" id="video"></div>
+
+    <section class="oferta">
+      <span class="selo">SÓ NESTA PÁGINA</span>
+      <h2>Sessão de Diagnóstico e Plano de Ação</h2>
+      <p style="font-size:16px;line-height:1.5">Uma conversa ao vivo com o Airon, online, sobre a sua história. Você sai com um plano de ação escrito.</p>
+      <div class="preco"><strong id="preco">R$197</strong><span class="suave" id="forma-txt" style="font-size:15px"></span></div>
+      <button type="button" class="botao ouro" id="sim">Sim, quero a minha sessão</button>
+      <div id="pix" style="display:flex;flex-direction:column;gap:12px"></div>
+      <p class="aviso erro oculto" id="erro"></p>
+      <button type="button" class="link-simples oculto" id="usar-pix" style="background:none;border:0;cursor:pointer;text-decoration:underline">Pagar com Pix</button>
+    </section>
+
+    <a class="link-simples" id="nao" href="#">Agora não, quero só o meu teste</a>
+  </div>
+
+  <div id="invalido" class="oculto carregando">
+    <p>Não encontramos esta compra. Se você acabou de pagar, confira o link que chegou no seu e-mail.</p>
+  </div>
+</main>
+
+<script src="../config.js"></script>
+<script src="../comum.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.CONFIG;
+  var p = parametro('p');
+  $('#marca').outerHTML = MARCA;
+  $('#preco').textContent = C.precoSessao;
+  $('#nao').href = '/aula/?p=' + encodeURIComponent(p);
+  function erro(m) { var e = $('#erro'); e.textContent = m || ''; e.classList.toggle('oculto', !m); }
+  if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
+
+  // Espera o Stripe confirmar os R$ 49 (cartão: segundos; Pix: assim que pagar)
+  var tentativas = 0;
+  esperarPago(p, function (r) {
+    tentativas++;
+    if (r.status === 'invalido' || r.status === 'estornado') { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); }
+    else if (tentativas > 6) $('#espera-txt').textContent = 'Aguardando a confirmação do pagamento. Se pagou com Pix, isso leva alguns segundos.';
+  }).then(function (r) {
+    if (r.produto === 'sessao197') { location.replace('/obrigado/?p=' + encodeURIComponent(r.pedidoOrigem)); return; }
+    if (r.temSessao) { location.replace('/obrigado/?p=' + encodeURIComponent(p)); return; }
+    $('#espera').classList.add('oculto');
+    $('#conteudo').classList.remove('oculto');
+    montarVideo($('#video'), C.vsl2);
+    $('#forma-txt').textContent = r.podeUmClique ? 'no mesmo cartão, sem digitar nada' : 'com Pix, na hora';
+    if (!r.podeUmClique) $('#sim').textContent = 'Sim, quero a minha sessão (Pix)';
+    etapa(r.s, 13);
+    carregarStripe().catch(function () {});
+  });
+
+  function concluir(pedidoSessao) {
+    $('#sim').disabled = true; $('#sim').textContent = 'Confirmando...';
+    esperarPago(pedidoSessao).then(function () { location.href = '/obrigado/?p=' + encodeURIComponent(p); });
+  }
+
+  function pedir(extra) {
+    erro('');
+    var b = $('#sim'); b.disabled = true; b.textContent = 'Processando...';
+    return api('POST', 'sessao', Object.assign({ p: p }, extra || {})).then(function (d) {
+      if (!d.ok) throw new Error(d.erro || 'erro');
+      if (d.status === 'pago') return concluir(d.pedido);
+      return carregarStripe().then(function (stripe) {
+        if (d.status === 'confirmar') {
+          // o banco pediu confirmação (3DS): confirma com o cartão já salvo
+          return stripe.confirmCardPayment(d.clientSecret).then(function (res) {
+            if (res.error) throw new Error(res.error.message);
+            concluir(d.pedido);
+          });
+        }
+        if (d.status === 'pix') {
+          b.textContent = 'Pague o Pix para confirmar';
+          return stripe.confirmPixPayment(d.clientSecret, { payment_method: {} }, { handleActions: true }).then(function (res) {
+            if (res.error) throw new Error(res.error.message);
+            concluir(d.pedido);
+          });
+        }
+      });
+    }).catch(function (e) {
+      b.disabled = false; b.textContent = 'Sim, quero a minha sessão';
+      erro(e && e.message && e.message !== 'erro' ? e.message : 'Não foi possível concluir agora. Tente de novo.');
+      $('#usar-pix').classList.remove('oculto');
+    });
+  }
+  $('#sim').addEventListener('click', function () { pedir(); });
+  $('#usar-pix').addEventListener('click', function () { $('#usar-pix').classList.add('oculto'); pedir({ pix: true }); });
+})();
+</script>
+</body>
+</html>

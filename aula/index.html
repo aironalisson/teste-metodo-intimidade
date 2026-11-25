@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aula de segunda · Método Intimidade</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<main class="pagina">
+  <div id="marca"></div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <span class="selo">O SEU TESTE ESTÁ LIBERADO</span>
+    <h1 style="font-size:36px;line-height:1.08">Tudo bem. O seu teste está liberado aqui embaixo.</h1>
+  </div>
+  <div class="video" id="video"></div>
+  <section class="bloco">
+    <span class="selo">PRÓXIMO PASSO</span>
+    <h2 style="font-size:24px;line-height:1.15">Aula ao vivo e gratuita, toda segunda ao meio-dia</h2>
+    <p class="suave" style="font-size:16px;line-height:1.5">Quem já sabe o próprio padrão aproveita muito mais. O link chega no grupo do WhatsApp.</p>
+    <a class="botao" id="grupo" target="_blank" rel="noopener">Entrar no grupo da aula</a>
+  </section>
+  <a class="botao claro" id="teste" href="#">Fazer o meu teste completo agora</a>
+</main>
+<script src="../config.js"></script>
+<script src="../comum.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.CONFIG, p = parametro('p');
+  $('#marca').outerHTML = MARCA;
+  $('#grupo').href = C.grupoAula;
+  montarVideo($('#video'), C.vsl3);
+  $('#teste').href = '/obrigado/?p=' + encodeURIComponent(p);
+})();
+</script>
+</body>
+</html>

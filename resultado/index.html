@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O seu resultado · Método Intimidade</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.metodointimidade.com.br">
+<link rel="preconnect" href="https://js.stripe.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<main class="pagina" id="pagina">
+  <div id="marca"></div>
+  <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+    <span class="selo">O SEU RESULTADO</span>
+    <span id="saudacao" style="font-size:18px" class="suave">O seu resultado:</span>
+    <h1 id="rotulo"></h1>
+  </div>
+  <div class="linha"></div>
+  <div class="destaque" id="caixa-frase">
+    <span class="rot">A frase que mais dói em você:</span>
+    <span class="citacao" id="frase"></span>
+  </div>
+  <p class="chamada">Aperta o play. Eu te explico o seu resultado no vídeo.</p>
+  <div class="video" id="video"></div>
+  <p class="legenda-video">Vídeo de 5 minutos, com legenda</p>
+
+  <section class="oferta oculto" id="oferta">
+    <span class="selo">TESTE COMPLETO + LIVRO</span>
+    <h2>Como eu conquisto as pessoas, e por que isso me machucou a vida inteira?</h2>
+    <div class="itens" id="itens"></div>
+    <div class="preco"><strong id="preco">R$49</strong></div>
+    <button type="button" class="botao ouro" id="comprar">Quero descobrir o meu padrão</button>
+
+    <div id="checkout" class="oculto" style="display:flex;flex-direction:column;gap:16px">
+      <label class="campo"><span>Seu melhor e-mail</span>
+        <span class="entrada"><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Para receber o seu acesso"></span>
+      </label>
+      <button type="button" class="botao" id="continuar">Continuar para o pagamento</button>
+      <div id="pagamento"></div>
+      <button type="button" class="botao oculto" id="pagar">Pagar R$49</button>
+      <p class="aviso erro oculto" id="erro"></p>
+    </div>
+
+    <span class="pequeno">Pagamento seguro · 7 dias de garantia</span>
+  </section>
+
+  <p class="rodape">Este teste não substitui acompanhamento psicológico.</p>
+</main>
+
+<div class="modal oculto" id="saida" role="dialog" aria-modal="true" aria-labelledby="saida-titulo">
+  <div class="caixa">
+    <span class="selo">ANTES DE IR</span>
+    <h2 id="saida-titulo">Toda segunda, ao meio-dia, eu faço uma aula ao vivo e gratuita.</h2>
+    <p class="suave" style="font-size:16px;line-height:1.5">O link da aula chega no grupo do WhatsApp.</p>
+    <a class="botao" id="saida-grupo" target="_blank" rel="noopener">Entrar no grupo da aula</a>
+    <button type="button" class="link-simples" id="saida-fechar" style="background:none;border:0;cursor:pointer">Voltar para o meu resultado</button>
+  </div>
+</div>
+
+<script src="../config.js"></script>
+<script src="../conteudo.js"></script>
+<script src="../comum.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.CONFIG;
+  var s = parametro('s'), r = parametro('r'), f = parametro('f'), nome = parametro('nome');
+  $('#marca').outerHTML = MARCA;
+  ['Teste completo de 20 frases, em uns 5 minutos', 'O livro Como faço você me amar? inteiro', 'Bônus: o guia do seu padrão em PDF']
+    .forEach(function (t) { $('#itens').insertAdjacentHTML('beforeend', '<div class="item">' + ITEM_OK + '<span>' + esc(t) + '</span></div>'); });
+  $('#preco').textContent = C.preco;
+  $('#pagar').textContent = 'Pagar ' + C.preco;
+  $('#saida-grupo').href = C.grupoAula;
+
+  function fraseDe(id) {
+    var t = (window.TESTE && window.TESTE.trilhas) || {};
+    var lista = [].concat((t.A || [])[6] ? t.A[6].respostas : [], (t.B || [])[6] ? t.B[6].respostas : []);
+    var x = lista.filter(function (o) { return o.id === id; })[0];
+    return x ? x.texto : '';
+  }
+  function mostrar(d) {
+    if (d.nome) $('#saudacao').textContent = d.nome + ', o seu resultado:';
+    $('#rotulo').textContent = window.ROTULOS[d.rotulo] || '';
+    var fr = d.frase || fraseDe(d.f);
+    if (fr) $('#frase').textContent = '“' + fr.replace(/\.$/, '') + '.”'; else $('#caixa-frase').classList.add('oculto');
+    document.title = (window.ROTULOS[d.rotulo] || 'O seu resultado') + ' · Método Intimidade';
+  }
+
+  // 1) mostra na hora com o que veio no link
+  mostrar({ nome: nome, rotulo: r, f: f });
+  // 2) confere no servidor (e marca no funil que ela viu o resultado)
+  if (s) api('GET', 'resultado', { s: s }).then(function (d) {
+    if (d.ok) { r = d.rotulo; mostrar({ nome: d.nome, rotulo: d.rotulo, frase: d.fraseQueMaisDoi }); montar(); }
+  }).catch(function () { /* fica com o que veio no link */ });
+
+  // Vídeo + oferta em 0:34 (e direto se ela já viu antes)
+  var chaveOferta = 'oferta_vista_' + (s || r);
+  var montado = false;
+  function montar() {
+    if (montado && !s) return;
+    if (montado) return;
+    montado = true;
+    var v = montarVideo($('#video'), (C.vsl1 || {})[r] || '');
+    var jaViu = false;
+    try { jaViu = localStorage.getItem(chaveOferta) === '1'; } catch (e) { /* ignora */ }
+    if (!v || jaViu) return mostrarOferta(false);
+    v.addEventListener('timeupdate', function () { if (v.currentTime >= C.ofertaEm) mostrarOferta(true); });
+  }
+  montar();
+
+  function mostrarOferta(animar) {
+    var o = $('#oferta');
+    if (!o.classList.contains('oculto')) return;
+    o.classList.remove('oculto');
+    if (animar) o.classList.add('aparece');
+    try { localStorage.setItem(chaveOferta, '1'); } catch (e) { /* ignora */ }
+    carregarStripe().catch(function () {}); // já deixa o pagamento pronto
+  }
+
+  // ---------- pagamento ----------
+  var stripe = null, elements = null, pedido = '';
+  $('#comprar').addEventListener('click', function () {
+    $('#comprar').classList.add('oculto');
+    $('#checkout').classList.remove('oculto');
+    $('#email').focus();
+    if (window.fbq) window.fbq('track', 'InitiateCheckout');
+  });
+  function erro(msg) { var e = $('#erro'); e.textContent = msg; e.classList.toggle('oculto', !msg); }
+
+  $('#continuar').addEventListener('click', function () {
+    var email = $('#email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return erro('Digite um e-mail válido. É nele que chega o seu acesso.');
+    erro('');
+    var b = $('#continuar'); b.disabled = true; b.textContent = 'Abrindo o pagamento...';
+    Promise.all([
+      api('POST', 'checkout', { s: s, nome: nome, email: email, fbp: cookie('_fbp'), fbc: cookie('_fbc'),
+        utm_source: parametro('utm_source'), utm_campaign: parametro('utm_campaign'), utm_content: parametro('utm_content') }),
+      carregarStripe()
+    ]).then(function (res) {
+      var d = res[0]; stripe = res[1];
+      if (!d.ok) throw new Error(d.erro || 'erro');
+      pedido = d.pedido;
+      elements = stripe.elements({ clientSecret: d.clientSecret, appearance: aparenciaStripe, fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap' }] });
+      var pe = elements.create('payment', { layout: { type: 'tabs' }, defaultValues: { billingDetails: { email: email, name: nome } } });
+      pe.mount('#pagamento');
+      b.classList.add('oculto');
+      $('#email').closest('.campo').classList.add('oculto');
+      $('#pagar').classList.remove('oculto');
+    }).catch(function (e) {
+      b.disabled = false; b.textContent = 'Continuar para o pagamento';
+      erro(e && e.message && e.message !== 'erro' && e.message.length < 120 ? e.message : 'Não foi possível abrir o pagamento agora. Tente de novo.');
+    });
+  });
+
+  $('#pagar').addEventListener('click', function () {
+    var b = $('#pagar'); b.disabled = true; b.textContent = 'Processando...'; erro('');
+    stripe.confirmPayment({
+      elements: elements,
+      confirmParams: { return_url: location.origin + '/sessao/?p=' + pedido },
+      redirect: 'if_required'
+    }).then(function (res) {
+      if (res.error) {
+        b.disabled = false; b.textContent = 'Pagar ' + C.preco;
+        return erro(res.error.message || 'O pagamento não foi concluído. Tente de novo.');
+      }
+      // cartão aprovado ou Pix pago: segue para a próxima página (ela confirma com o servidor)
+      location.href = '/sessao/?p=' + pedido;
+    });
+  });
+
+  // ---------- aviso de saída (botão voltar no celular, mouse saindo no computador) ----------
+  var avisou = false;
+  function abrirSaida() {
+    if (avisou || !$('#comprar') || $('#checkout').classList.contains('oculto') === false) return;
+    avisou = true; $('#saida').classList.remove('oculto');
+  }
+  try { history.pushState({ resultado: 1 }, ''); } catch (e) { /* ignora */ }
+  window.addEventListener('popstate', function () { if (!avisou) { abrirSaida(); try { history.pushState({ resultado: 1 }, ''); } catch (e) { /* ignora */ } } });
+  document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 0) abrirSaida(); });
+  $('#saida-fechar').addEventListener('click', function () { $('#saida').classList.add('oculto'); });
+})();
+</script>
+</body>
+</html>

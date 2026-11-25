@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O seu acesso · Método Intimidade</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.metodointimidade.com.br">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<main class="pagina">
+  <div id="marca"></div>
+  <div id="espera" class="carregando"><div class="giro"></div><p>Carregando o seu acesso...</p></div>
+
+  <div id="conteudo" class="oculto" style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="selo">ACESSO LIBERADO</span>
+      <h1 style="font-size:36px;line-height:1.08" id="titulo">Está tudo pronto.</h1>
+      <p class="suave" style="font-size:17px;line-height:1.5">O link também foi para o seu e-mail, para você não perder.</p>
+    </div>
+
+    <section class="oferta oculto" id="agenda">
+      <span class="selo">SUA SESSÃO ESTÁ GARANTIDA</span>
+      <h2>Escolha o dia e o horário da sua sessão</h2>
+      <a class="botao ouro" id="agendar" href="#">Agendar a minha sessão</a>
+      <p class="pequeno" id="zap-linha">Não encontrou um horário bom? Não se preocupe, <a id="zap" target="_blank" rel="noopener" style="color:inherit;font-weight:700">fale direto com o Airon pelo WhatsApp clicando aqui</a>.</p>
+    </section>
+
+    <section class="oferta">
+      <span class="selo">TESTE COMPLETO + LIVRO</span>
+      <h2>Como faço os outros me amarem</h2>
+      <p class="suave" style="font-size:16px;line-height:1.5">20 frases, em uns 5 minutos. No final, o seu padrão, o livro e o guia do seu padrão em PDF.</p>
+      <a class="botao" id="fazer" href="#">Fazer o meu teste completo</a>
+    </section>
+
+    <section class="bloco">
+      <span class="selo">AULA DE SEGUNDA</span>
+      <p style="font-size:16px;line-height:1.5">Toda segunda, ao meio-dia, aula ao vivo e gratuita. O link chega no grupo do WhatsApp.</p>
+      <a class="botao claro" id="grupo" target="_blank" rel="noopener">Entrar no grupo da aula</a>
+    </section>
+  </div>
+
+  <div id="invalido" class="oculto carregando"><p>Não encontramos esta compra. Confira o link que chegou no seu e-mail.</p></div>
+</main>
+<script src="../config.js"></script>
+<script src="../comum.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.CONFIG, p = parametro('p');
+  $('#marca').outerHTML = MARCA;
+  $('#grupo').href = C.grupoAula;
+  if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
+  esperarPago(p, function (r) {
+    if (r.status === 'invalido' || r.status === 'estornado') { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); }
+  }).then(function (r) {
+    $('#espera').classList.add('oculto');
+    $('#conteudo').classList.remove('oculto');
+    if (r.nome) $('#titulo').textContent = r.nome + ', está tudo pronto.';
+    $('#fazer').href = r.linkTeste || '#';
+    if (r.temSessao) {
+      $('#agenda').classList.remove('oculto');
+      $('#agendar').href = C.agendar + '?p=' + encodeURIComponent(p);
+      if (C.whatsappAiron) $('#zap').href = 'https://wa.me/' + C.whatsappAiron + '?text=' + encodeURIComponent('Oi, Airon! Comprei a sessão de diagnóstico, mas não encontrei um horário bom na agenda.');
+      else $('#zap-linha').classList.add('oculto');
+    }
+  });
+})();
+</script>
+</body>
+</html>

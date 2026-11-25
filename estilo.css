@@ -1,0 +1,53 @@
+:root{--fundo:#FFFFFF;--cartao:#FAF7F2;--texto:#1A1714;--suave:#5C554C;--placeholder:#6F675D;--ouro:#C9A84C;--ouro-escuro:#8A6514;--borda:#E8E1D6;--trilho:#EFE9DF;--erro:#B3261E}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fundo);color:var(--texto);font-family:Lato,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+.pagina{max-width:430px;margin:0 auto;padding:24px 20px 32px;display:flex;flex-direction:column;gap:24px}
+.marca{display:flex;align-items:center;justify-content:center;gap:8px}
+.marca span{font-family:Cinzel,serif;font-weight:600;font-size:12px;letter-spacing:.18em}
+.selo{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--ouro-escuro)}
+h1,h2{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600}
+h1{font-size:48px;line-height:1.02}
+h2{font-size:28px;line-height:1.12}
+p{margin:0}
+.suave{color:var(--suave)}
+.linha{height:1px;background:var(--borda)}
+.destaque{padding:20px;border-radius:16px;background:var(--cartao);display:flex;flex-direction:column;gap:8px;box-shadow:inset 3px 0 0 var(--ouro)}
+.destaque .rot{font-size:16px;font-weight:700;color:var(--suave)}
+.citacao{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:28px;line-height:1.2}
+.chamada{font-size:18px;font-weight:700;line-height:1.5}
+.video{position:relative;border-radius:18px;overflow:hidden;background:var(--texto);color:#fff}
+.video video{display:block;width:100%;height:auto;max-height:80vh;background:#000}
+.video .vazio{aspect-ratio:9/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center;color:var(--borda);font-size:15px}
+.legenda-video{font-size:14px;color:var(--suave);text-align:center;margin-top:-12px}
+.oferta{padding:24px 20px;border-radius:20px;border:1.5px solid var(--ouro);display:flex;flex-direction:column;gap:16px}
+.oculto{display:none!important}
+.aparece{animation:aparece .5s ease both}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.itens{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:12px;font-size:16px;line-height:1.45}
+.item svg{flex-shrink:0;margin-top:3px}
+.preco{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:4px}
+.preco strong{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:56px;line-height:1}
+.botao{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;padding:0 16px;border:0;border-radius:14px;background:var(--texto);color:#fff;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center}
+.botao.ouro{background:var(--ouro);color:var(--texto);min-height:60px}
+.botao.claro{background:#fff;color:var(--texto);border:1.5px solid var(--texto)}
+.botao:disabled{opacity:.6;cursor:default}
+.link-simples{display:block;text-align:center;font-size:16px;color:var(--suave);padding:12px;min-height:48px}
+.pequeno{text-align:center;font-size:15px;color:var(--suave);line-height:1.5}
+.rodape{text-align:center;font-size:14px;line-height:1.5;color:var(--suave)}
+.campo{display:flex;flex-direction:column;gap:8px}
+.campo>span{font-size:15px;font-weight:700}
+.entrada{display:flex;align-items:center;height:54px;padding:0 16px;border:1.5px solid var(--borda);border-radius:12px;background:#fff}
+.entrada:focus-within{border-color:var(--ouro-escuro)}
+.entrada input{flex:1;min-width:0;border:0;outline:0;font-size:17px;background:transparent;height:100%}
+.entrada input::placeholder{color:var(--placeholder)}
+.aviso{font-size:15px;line-height:1.45;text-align:center}
+.aviso.erro{color:var(--erro)}
+.carregando{display:flex;flex-direction:column;align-items:center;gap:14px;padding:48px 0;text-align:center;color:var(--suave)}
+.giro{width:34px;height:34px;border-radius:50%;border:3px solid var(--trilho);border-top-color:var(--ouro);animation:giro 1s linear infinite}
+@keyframes giro{to{transform:rotate(360deg)}}
+.bloco{padding:22px 20px;border-radius:20px;background:var(--cartao);display:flex;flex-direction:column;gap:10px}
+.modal{position:fixed;inset:0;background:rgba(26,23,20,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:16px}
+.modal .caixa{width:100%;max-width:430px;background:#fff;border-radius:20px;padding:24px 20px;display:flex;flex-direction:column;gap:14px}
+@media (max-width:360px){h1{font-size:40px}}

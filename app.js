@@ -227,7 +227,9 @@
         .then(function (res) {
           if (res.j && res.j.ok && res.j.url) {
             try { localStorage.removeItem('teste_pendente'); } catch (e) { /* ignora */ }
-            location.href = res.j.url;
+            // abre o resultado aqui mesmo (mais rápido), com os dados que o servidor confirmou
+            var u = new URL(res.j.url);
+            location.href = '/resultado/' + u.search;
           } else if (res.status === 400) {
             botao.disabled = false; botao.textContent = 'Ver o meu resultado';
             aviso.textContent = (res.j && res.j.erro) || 'Confira os seus dados.'; aviso.classList.add('on');
