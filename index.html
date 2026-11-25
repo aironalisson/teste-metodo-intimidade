@@ -17,16 +17,18 @@
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--fundo);color:var(--texto);font-family:Lato,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}
-.tela{max-width:430px;min-height:100vh;min-height:100dvh;margin:0 auto;padding:24px 20px 28px;display:flex;flex-direction:column;gap:20px}
+.tela{max-width:430px;min-height:100vh;min-height:100dvh;margin:0 auto;padding:16px 16px 20px;display:flex;flex-direction:column;gap:14px}
 .marca{display:flex;align-items:center;justify-content:center;gap:10px}
 .marca span{font-family:Cinzel,serif;font-weight:600;font-size:13px;letter-spacing:.18em}
 .selo{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--ouro-escuro)}
 h1{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08}
-.capa h1{font-size:42px;line-height:1.05}
-.pergunta h1{font-size:32px;line-height:1.1}
+.capa h1{font-size:40px;line-height:1.05}
+.capa{height:100vh;height:100dvh;min-height:0}
+.pergunta h1{font-size:29px;line-height:1.1}
 p{margin:0}
 .sub{font-size:17px;line-height:1.5;color:var(--suave)}
-.capa-img{width:100%;aspect-ratio:350/300;object-fit:cover;border-radius:20px;display:block;background:var(--cartao)}
+/* a foto da capa ocupa o espaço que sobrar: o botão sempre cabe na tela */
+.capa-img{width:100%;flex:1 1 0;min-height:110px;max-height:360px;object-fit:cover;object-position:50% 35%;border-radius:20px;display:block;background:var(--cartao)}
 .cresce{flex-grow:1}
 .botao{display:flex;align-items:center;justify-content:center;width:100%;height:58px;border:0;border-radius:14px;background:var(--texto);color:#fff;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none}
 .botao:disabled{opacity:.6;cursor:default}
@@ -38,16 +40,18 @@ p{margin:0}
 .contador{font-weight:700;color:var(--ouro-escuro)}
 .barra{height:6px;border-radius:3px;background:var(--trilho);overflow:hidden}
 .barra i{display:block;height:6px;border-radius:3px;background:var(--ouro);transition:width .3s}
-.grade{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .opcao{position:relative;display:flex;flex-direction:column;border:1px solid var(--borda);border-radius:16px;overflow:hidden;background:var(--cartao);text-align:left;padding:0;cursor:pointer;min-height:48px}
 .opcao.marcada{border:2px solid var(--ouro-escuro)}
-.opcao .foto{width:100%;height:150px;object-fit:cover;display:block;background:var(--trilho)}
-.opcao .cena{height:150px;display:flex;align-items:center;justify-content:center;padding:12px;font-size:13px;line-height:1.35;color:var(--suave);background:var(--trilho);text-align:center}
-.opcao .txt{padding:12px 12px 14px;font-size:16px;font-weight:700;line-height:1.3}
+/* altura da foto acompanha a altura da tela: as 4 respostas cabem sem rolar */
+.opcao .foto,.opcao .cena{height:clamp(84px,calc((100dvh - 400px) / 2),150px)}
+.opcao .foto{width:100%;object-fit:cover;display:block;background:var(--trilho)}
+.opcao .cena{display:flex;align-items:center;justify-content:center;padding:12px;font-size:13px;line-height:1.35;color:var(--suave);background:var(--trilho);text-align:center}
+.opcao .txt{padding:10px 10px 12px;font-size:15px;font-weight:700;line-height:1.3}
 .check{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:13px;background:var(--ouro-escuro);display:none;align-items:center;justify-content:center}
 .opcao.marcada .check{display:flex}
-.frases{display:flex;flex-direction:column;gap:12px}
-.frase{position:relative;display:block;width:100%;text-align:left;padding:20px 52px 20px 20px;border:1px solid var(--borda);border-radius:16px;background:var(--cartao);font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-style:italic;font-size:23px;line-height:1.25;cursor:pointer;min-height:64px}
+.frases{display:flex;flex-direction:column;gap:10px}
+.frase{position:relative;display:block;width:100%;text-align:left;padding:15px 48px 15px 16px;border:1px solid var(--borda);border-radius:16px;background:var(--cartao);font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-style:italic;font-size:21px;line-height:1.22;cursor:pointer;min-height:64px}
 .frase.marcada{border:2px solid var(--ouro-escuro)}
 .frase .check{top:50%;margin-top:-13px;right:14px}
 .analise{align-items:stretch;gap:28px}
@@ -72,7 +76,8 @@ p{margin:0}
 .aceite input:checked::after{content:"";width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
 .aviso{font-size:15px;line-height:1.45;color:#B3261E;text-align:center;display:none}
 .aviso.on{display:block}
-@media (max-width:360px){.capa h1{font-size:36px}.pergunta h1{font-size:28px}.opcao .foto,.opcao .cena{height:128px}}
+@media (max-width:360px){.capa h1{font-size:36px}.pergunta h1{font-size:27px}}
+@media (max-height:680px){.capa h1{font-size:34px}.sub{font-size:16px;line-height:1.45}.voltar{min-height:40px}.topo{gap:6px}}
 </style>
 </head>
 <body>

@@ -88,7 +88,6 @@
       '<div style="display:flex;flex-direction:column;gap:10px"><span class="selo">TESTE GRATUITO · 2 MINUTOS</span>' +
       '<h1>Qual é a sua ferida no amor?</h1>' +
       '<p class="sub">8 perguntas rápidas. É só tocar na resposta. No final, você vê o retrato da sua vida amorosa hoje.</p></div>' +
-      '<div class="cresce"></div>' +
       '<button type="button" class="botao" data-comecar>Começar o teste</button>' +
       '<p class="rodape">Por Airon Pereira, autor de Como faço você me amar?<br><a href="https://www.metodointimidade.com.br/pol%C3%ADtica-de-privacidade" target="_blank" rel="noopener">Política de privacidade</a></p></section>';
     preCarregar(T.entrada.respostas);
@@ -170,9 +169,9 @@
   function formulario() {
     estado.tela = 'formulario';
     app.innerHTML = '<section class="tela"><div class="topo"><div class="topo-linha"><span>Pergunta 8 de 8</span><span class="contador">Pronto</span></div><div class="barra" aria-hidden="true"><i style="width:100%"></i></div></div>' +
-      '<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px"><svg width="44" height="44" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#C9A84C"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '<h1 style="font-size:36px;line-height:1.05">O seu resultado está pronto.</h1><p class="sub">Você vê o seu resultado na próxima tela.</p></div>' +
-      '<form id="form" novalidate style="display:flex;flex-direction:column;gap:20px">' +
+      '<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px"><svg width="34" height="34" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#C9A84C"/><path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<h1 style="font-size:32px;line-height:1.05">O seu resultado está pronto.</h1><p class="sub">Você vê o seu resultado na próxima tela.</p></div>' +
+      '<form id="form" novalidate style="display:flex;flex-direction:column;gap:14px">' +
       '<label class="campo" id="c-nome"><span>Seu primeiro nome</span><span class="entrada"><input id="nome" name="nome" autocomplete="given-name" placeholder="Ex.: Ana" maxlength="40" required></span><span class="msg-erro">Digite o seu primeiro nome.</span></label>' +
       '<label class="campo" id="c-zap"><span>Seu WhatsApp com DDD</span><span class="entrada"><span class="ddi">+55</span><input id="zap" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(11) 90000-0000" maxlength="16" required></span><span class="msg-erro">Confira o DDD e o número do WhatsApp.</span></label>' +
       '<label class="aceite"><input type="checkbox" id="aceite"><span>Quero receber o convite da aula gratuita de segunda pelo WhatsApp.</span></label>' +
