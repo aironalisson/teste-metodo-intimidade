@@ -6,7 +6,7 @@ window.CONFIG = {
   preco: 'R$49',
   precoSessao: 'R$197',
   grupoAula: 'https://chat.whatsapp.com/B5rOiFK7xFdAHNfCg0r7gh',
-  whatsappAiron: '', // número com DDI e DDD, só números (ex.: 5511999999999)
+  whatsappAiron: '5511999235360', // número com DDI e DDD, só números
   agendar: 'https://www.metodointimidade.com.br/agendar',
   // Vídeos (endereço .mp4 ou do player). Vazio = vídeo ainda não gravado.
   // VSL 1 tem 4 versões: uma por rótulo.
