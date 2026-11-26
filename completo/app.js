@@ -43,7 +43,7 @@
     } catch (e) { /* começa do zero */ }
   }
 
-  function mostrar(html) { app.innerHTML = '<section class="tela entra">' + html + '</section>'; window.scrollTo(0, 0); var f = app.querySelector('h1,[data-foco]'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); } }
+  function mostrar(html, classe) { app.innerHTML = '<section class="tela entra' + (classe ? ' ' + classe : '') + '">' + html + '</section>'; window.scrollTo(0, 0); var f = app.querySelector('h1,[data-foco]'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); } }
   function topo(texto, pct, voltar) {
     return '<div class="topo"><div class="topo-linha">' + (voltar ? '<button type="button" class="voltar" data-voltar>‹ Voltar</button>' : '<span></span>') +
       '<span class="contador">' + esc(texto) + '</span></div><div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + Math.round(pct) + '"><i style="width:' + pct + '%"></i></div></div>';
@@ -62,10 +62,10 @@
       '<div class="itens3">' + t.itens.map(function (x, i) { return '<div>' + icone(ICONES[i]) + '<span>' + esc(x) + '</span></div>'; }).join('') + '</div>' +
       '<div class="exemplo"><span style="font-size:17px;font-weight:700;line-height:1.4">' + esc(t.como_responder) + '</span>' +
       '<div style="display:flex;flex-direction:column;gap:10px">' + T.escala.map(function (e) { return '<div class="linha"><span>' + esc(e.texto) + '</span>' + pts(e.pontinhos) + '</div>'; }).join('') + '</div></div>' +
-      '<p style="font-size:17px;line-height:1.5" class="suave">' + esc(t.texto) + '</p>' +
+      '<p style="font-size:17px;line-height:1.5" class="suave txt">' + esc(t.texto) + '</p>' +
       '<div class="cresce"></div>' +
       '<button type="button" class="botao" data-ir="0">' + esc(t.botao) + '</button>' +
-      '<p class="rodape">' + esc(t.rodape) + '</p>');
+      '<p class="rodape">' + esc(t.rodape) + '</p>', 'inicio');
   }
 
   function frase(i) {
@@ -79,7 +79,7 @@
       '<div class="opcoes" role="group" aria-label="' + esc(T.tela_frase.pergunta) + '">' + T.escala.map(function (e) {
         return '<button type="button" class="resp' + (marcada === e.pontos ? ' marcada' : '') + '" data-resp="' + e.pontos + '" aria-pressed="' + (marcada === e.pontos) + '"><span>' + esc(e.texto) + '</span>' + pts(e.pontinhos) + '</button>';
       }).join('') + '</div>' +
-      '<p class="rodape" style="font-size:15px">' + esc(T.tela_frase.rodape) + '</p>');
+      '<p class="rodape" style="font-size:15px">' + esc(T.tela_frase.rodape) + '</p>', 'frase');
     app.querySelectorAll('[data-resp]').forEach(function (b) {
       b.addEventListener('click', function () {
         if (app.dataset.travado) return;
@@ -118,12 +118,12 @@
     voltarPara = function () { frase(19); };
     mostrar(MARCA + topo(P.selo, 96, true) +
       '<div style="display:flex;flex-direction:column;gap:10px;margin-top:4px"><h1 style="font-size:32px;line-height:1.1">' + esc(P.pergunta) + '</h1>' +
-      '<span style="font-size:17px;line-height:1.45" class="suave">' + esc(P.subtitulo) + '</span></div>' +
+      '<span style="font-size:17px;line-height:1.45" class="suave sub">' + esc(P.subtitulo) + '</span></div>' +
       '<div class="opcoes" role="radiogroup" aria-label="' + esc(P.pergunta) + '">' + estado.ordemFinal.map(function (o) {
         return '<button type="button" class="escolha" role="radio" aria-checked="' + (estado.final === o.padrao) + '" data-final="' + o.padrao + '"><span class="bola" aria-hidden="true"></span><span>“' + esc(o.frase) + '”</span></button>';
       }).join('') + '</div>' +
       '<div class="cresce"></div>' +
-      '<button type="button" class="botao" id="ver"' + (estado.final ? '' : ' disabled') + '>' + esc(P.botao) + '</button>');
+      '<button type="button" class="botao" id="ver"' + (estado.final ? '' : ' disabled') + '>' + esc(P.botao) + '</button>', 'final');
     app.querySelectorAll('[data-final]').forEach(function (b) {
       b.addEventListener('click', function () {
         estado.final = b.dataset.final; salvar();
