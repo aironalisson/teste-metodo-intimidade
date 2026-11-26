@@ -15,7 +15,7 @@ window.CONFIG = {
   vsl3: '',
   ofertaEm: 34, // segundo do vídeo em que o cartão da oferta aparece
   // Onde ela paga: 'stripe' (pagamento dentro do site) ou 'hubla' (checkout da Hubla)
-  pagamento: 'stripe',
+  pagamento: 'hubla',
   hublaTeste: 'https://hub.la/g/S69ptmLjFHCNhdU6Gf5o', // checkout do R$49
   hublaSessao: 'https://hub.la/r/sessaodediagnostico' // 1 clique da sessão
 };
