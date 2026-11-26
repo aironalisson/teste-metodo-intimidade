@@ -119,12 +119,19 @@
     o.classList.remove('oculto');
     if (animar) o.classList.add('aparece');
     try { localStorage.setItem(chaveOferta, '1'); } catch (e) { /* ignora */ }
-    carregarStripe().catch(function () {}); // já deixa o pagamento pronto
+    if (!ehHubla()) carregarStripe().catch(function () {}); // já deixa o pagamento pronto
   }
 
   // ---------- pagamento ----------
   var stripe = null, elements = null, pedido = '';
   $('#comprar').addEventListener('click', function () {
+    if (ehHubla()) {
+      // checkout da Hubla (o pixel da Hubla já registra o início da compra)
+      guardarSessao(s);
+      $('#comprar').disabled = true; $('#comprar').textContent = 'Abrindo o pagamento...';
+      location.href = linkHubla(C.hublaTeste, s);
+      return;
+    }
     $('#comprar').classList.add('oculto');
     $('#checkout').classList.remove('oculto');
     $('#email').focus();

@@ -73,6 +73,37 @@
     });
   };
 
+  // ---------- Hubla ----------
+  window.ehHubla = function () { return C.pagamento === 'hubla'; };
+  window.guardarSessao = function (s) { try { if (s) localStorage.setItem('funilb-s', s); } catch (e) { /* ignora */ } };
+  window.lerSessao = function () { try { return localStorage.getItem('funilb-s') || ''; } catch (e) { return ''; } };
+  // Link do checkout da Hubla levando a sessão do teste grátis (volta no aviso de pagamento) e as UTMs
+  window.linkHubla = function (base, s) {
+    var u = new URL(base), q = new URLSearchParams(location.search);
+    if (s) u.searchParams.set('sck', s);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'].forEach(function (k) { if (q.get(k)) u.searchParams.set(k, q.get(k)); });
+    return u.toString();
+  };
+  // Acha o pedido: pelo ?p= da URL ou, voltando da Hubla, pela sessão guardada no navegador
+  window.acharPedido = function (aoEsperar) {
+    var p = parametro('p');
+    if (p) return Promise.resolve(p);
+    var s = parametro('s') || lerSessao();
+    if (!s) return Promise.resolve('');
+    var n = 0;
+    return new Promise(function (ok) {
+      (function olhar() {
+        n++;
+        api('GET', 'pedidoSessao', { s: s }).then(function (r) {
+          if (r.ok) return ok(r.p);
+          if (aoEsperar) aoEsperar(n);
+          if (n > 60) return ok('');
+          setTimeout(olhar, n < 20 ? 1500 : 4000);
+        }).catch(function () { if (n > 60) return ok(''); setTimeout(olhar, 3000); });
+      })();
+    });
+  };
+
   // Player de vídeo simples (.mp4). Devolve o elemento <video> ou null.
   window.montarVideo = function (alvo, url, legenda) {
     if (!url) {

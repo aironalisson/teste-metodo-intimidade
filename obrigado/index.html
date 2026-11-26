@@ -51,10 +51,15 @@
 <script>
 (function () {
   'use strict';
-  var C = window.CONFIG, p = parametro('p');
+  var C = window.CONFIG, p = '', voltas = 0;
   $('#marca').outerHTML = MARCA;
   $('#grupo').href = C.grupoAula;
-  if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
+  acharPedido().then(function (achado) {
+    p = achado;
+    if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
+    mostrar();
+  });
+  function mostrar() {
   esperarPago(p, function (r) {
     if (r.status === 'invalido' || r.status === 'estornado') { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); }
   }).then(function (r) {
@@ -63,12 +68,19 @@
     if (r.nome) $('#titulo').textContent = r.nome + ', está tudo pronto.';
     $('#fazer').href = r.linkTeste || '#';
     if (r.temSessao) {
+      try { localStorage.removeItem('funilb-quis-sessao'); } catch (e) { /* ignora */ }
       $('#agenda').classList.remove('oculto');
       $('#agendar').href = C.agendar + '?p=' + encodeURIComponent(p);
       if (C.whatsappAiron) $('#zap').href = 'https://wa.me/' + C.whatsappAiron + '?text=' + encodeURIComponent('Oi, Airon! Comprei a sessão de diagnóstico, mas não encontrei um horário bom na agenda.');
       else $('#zap-linha').classList.add('oculto');
+    } else {
+      // voltou da Hubla depois do 1 clique da sessão: o aviso de pagamento pode levar alguns segundos
+      var quis = false;
+      try { quis = localStorage.getItem('funilb-quis-sessao') === '1'; } catch (e) { /* ignora */ }
+      if (quis && ++voltas < 20) setTimeout(function () { mostrar(); }, 4000);
     }
   });
+  }
 })();
 </script>
 </body>

@@ -13,7 +13,11 @@ window.CONFIG = {
   vsl1: { migalhas: '', 'carrega-tudo': '', invisivel: '', 'coracao-fechado': '' },
   vsl2: '',
   vsl3: '',
-  ofertaEm: 34 // segundo do vídeo em que o cartão da oferta aparece
+  ofertaEm: 34, // segundo do vídeo em que o cartão da oferta aparece
+  // Onde ela paga: 'stripe' (pagamento dentro do site) ou 'hubla' (checkout da Hubla)
+  pagamento: 'stripe',
+  hublaTeste: 'https://hub.la/g/S69ptmLjFHCNhdU6Gf5o', // checkout do R$49
+  hublaSessao: 'https://hub.la/r/sessaodediagnostico' // 1 clique da sessão
 };
 window.ROTULOS = {
   migalhas: 'A Que Recebeu Migalhas',

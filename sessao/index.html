@@ -50,14 +50,22 @@
 (function () {
   'use strict';
   var C = window.CONFIG;
-  var p = parametro('p');
+  var p = '';
   $('#marca').outerHTML = MARCA;
   $('#preco').textContent = C.precoSessao;
-  $('#nao').href = '/aula/?p=' + encodeURIComponent(p);
   function erro(m) { var e = $('#erro'); e.textContent = m || ''; e.classList.toggle('oculto', !m); }
-  if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
 
-  // Espera o Stripe confirmar os R$ 49 (cartão: segundos; Pix: assim que pagar)
+  acharPedido(function (n) {
+    if (n > 6) $('#espera-txt').textContent = 'Aguardando a confirmação do pagamento. Se pagou com Pix, isso leva alguns segundos.';
+  }).then(function (achado) {
+    p = achado;
+    $('#nao').href = '/aula/?p=' + encodeURIComponent(p);
+    if (!p) { $('#espera').classList.add('oculto'); $('#invalido').classList.remove('oculto'); return; }
+    esperar();
+  });
+
+  // Espera o pagamento dos R$ 49 ser confirmado (cartão: segundos; Pix: assim que pagar)
+  function esperar() {
   var tentativas = 0;
   esperarPago(p, function (r) {
     tentativas++;
@@ -69,11 +77,13 @@
     $('#espera').classList.add('oculto');
     $('#conteudo').classList.remove('oculto');
     montarVideo($('#video'), C.vsl2);
+    etapa(r.s, 13);
+    if (ehHubla()) { guardarSessao(r.s); return; } // na Hubla o botão abre o 1 clique dela
     $('#forma-txt').textContent = r.podeUmClique ? 'no mesmo cartão, sem digitar nada' : 'com Pix, na hora';
     if (!r.podeUmClique) $('#sim').textContent = 'Sim, quero a minha sessão (Pix)';
-    etapa(r.s, 13);
     carregarStripe().catch(function () {});
   });
+  }
 
   function concluir(pedidoSessao) {
     $('#sim').disabled = true; $('#sim').textContent = 'Confirmando...';
@@ -108,7 +118,15 @@
       $('#usar-pix').classList.remove('oculto');
     });
   }
-  $('#sim').addEventListener('click', function () { pedir(); });
+  $('#sim').addEventListener('click', function () {
+    if (ehHubla()) {
+      try { localStorage.setItem('funilb-quis-sessao', '1'); } catch (e) { /* ignora */ }
+      $('#sim').disabled = true; $('#sim').textContent = 'Abrindo...';
+      location.href = linkHubla(C.hublaSessao, lerSessao());
+      return;
+    }
+    pedir();
+  });
   $('#usar-pix').addEventListener('click', function () { $('#usar-pix').classList.add('oculto'); pedir({ pix: true }); });
 })();
 </script>
