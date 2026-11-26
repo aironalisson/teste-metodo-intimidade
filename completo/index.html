@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O seu teste completo · Método Intimidade</title>
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.metodointimidade.com.br">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Lato:wght@400;700&display=swap">
+<style>
+:root{--fundo:#FFFFFF;--cartao:#FAF7F2;--texto:#1A1714;--suave:#5C554C;--ouro:#C9A84C;--ouro-escuro:#8A6514;--borda:#E8E1D6;--vazio:#CFC4B2;--trilho:#EFE9DF;--erro:#B3261E}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fundo);color:var(--texto);font-family:Lato,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+p{margin:0}
+h1,h2{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600}
+:focus-visible{outline:3px solid var(--ouro-escuro);outline-offset:2px}
+[tabindex="-1"]:focus{outline:none}
+.tela{max-width:430px;min-height:100vh;min-height:100dvh;margin:0 auto;padding:16px 20px 22px;display:flex;flex-direction:column;gap:18px}
+.entra{animation:entra .28s ease both}
+@keyframes entra{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.entra{animation:none}.barra i,.anel circle{transition:none!important}}
+.marca{display:flex;align-items:center;justify-content:center;gap:8px}
+.marca span{font-family:Cinzel,serif;font-weight:600;font-size:12px;letter-spacing:.18em}
+.selo{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--ouro-escuro)}
+.suave{color:var(--suave)}
+.cresce{flex-grow:1}
+.botao{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;padding:0 16px;border:0;border-radius:14px;background:var(--texto);color:#fff;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center}
+.botao:disabled{opacity:.45;cursor:default}
+.botao.contorno{background:#fff;color:var(--texto);border:1.5px solid var(--texto);min-height:54px;font-size:17px}
+.botao.claro{background:#fff;color:var(--texto);border:1.5px solid var(--borda);min-height:54px;font-size:17px}
+.rodape{text-align:center;font-size:14px;line-height:1.5;color:var(--suave)}
+/* topo */
+.topo{display:flex;flex-direction:column;gap:6px}
+.topo-linha{display:flex;justify-content:space-between;align-items:center;font-size:16px;color:var(--suave)}
+.voltar{display:flex;align-items:center;min-height:48px;min-width:48px;padding:0 8px 0 0;background:none;border:0;color:var(--suave);cursor:pointer}
+.contador{font-weight:700;color:var(--ouro-escuro)}
+.barra{height:4px;border-radius:2px;background:var(--trilho);overflow:hidden}
+.barra i{display:block;height:4px;border-radius:2px;background:var(--ouro);transition:width .3s}
+/* pontinhos */
+.pts{display:flex;gap:6px}
+.pts i{width:10px;height:10px;border-radius:5px;border:1.5px solid var(--vazio)}
+.pts i.c{background:var(--ouro);border-color:var(--ouro)}
+/* início */
+.itens3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.itens3 div{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;border-radius:14px;border:1px solid var(--borda);text-align:center;font-size:15px;font-weight:700;line-height:1.25}
+.exemplo{display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:18px;background:var(--cartao)}
+.exemplo .linha{display:flex;align-items:center;justify-content:space-between;font-size:17px}
+/* frase */
+.frase-bloco{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;padding:0 6px}
+.frase-bloco p{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:34px;line-height:1.15}
+.traco{width:40px;height:2px;border-radius:1px;background:var(--ouro)}
+.opcoes{display:flex;flex-direction:column;gap:10px}
+.resp{display:flex;align-items:center;justify-content:space-between;width:100%;height:62px;padding:0 20px;border-radius:14px;border:1.5px solid var(--borda);background:#fff;font-size:18px;font-weight:700;cursor:pointer;text-align:left}
+.resp.marcada{border:2px solid var(--ouro-escuro);background:var(--cartao);padding:0 19.5px}
+.resp.marcada .pts i.c{background:var(--ouro-escuro);border-color:var(--ouro-escuro)}
+/* pausa */
+.centro{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.centro h1{font-size:38px;line-height:1.08}
+/* final */
+.escolha{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:12px 18px;border-radius:14px;border:1.5px solid var(--borda);background:#fff;font-size:17px;font-weight:700;line-height:1.35;cursor:pointer;text-align:left}
+.escolha .bola{width:22px;height:22px;border-radius:11px;border:2px solid #6F675D;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.escolha[aria-checked="true"]{border:2px solid var(--ouro-escuro);background:var(--cartao);padding:12px 17.5px}
+.escolha[aria-checked="true"] .bola{border-color:var(--ouro-escuro)}
+.escolha[aria-checked="true"] .bola::after{content:"";width:10px;height:10px;border-radius:5px;background:var(--ouro-escuro)}
+/* analisando */
+.anel{align-self:center;position:relative;width:150px;height:150px}
+.anel span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:40px}
+.passos{display:flex;flex-direction:column;gap:16px;padding:22px 20px;border-radius:16px;background:var(--cartao);border:1px solid var(--borda)}
+.passos div{display:flex;align-items:center;gap:12px;font-size:17px;color:var(--suave)}
+.passos div.feito{color:var(--texto)}
+/* resultado */
+.res-topo{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;margin-top:8px}
+.res-topo h1{font-size:62px;line-height:1}
+.aneis{display:flex;align-items:center;gap:10px}
+.aneis i{width:36px;height:1px;background:var(--ouro)}
+.cartao{padding:18px;border-radius:16px;border:1px solid var(--borda);display:flex;flex-direction:column;gap:10px}
+.niveis{display:flex;gap:6px}
+.niveis i{flex:1;height:8px;border-radius:4px;background:var(--trilho)}
+.niveis i.c{background:var(--ouro)}
+.citacao{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:0 8px}
+.citacao .aspas{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:64px;line-height:.6;height:34px;color:var(--ouro)}
+.citacao p{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:28px;line-height:1.2}
+.texto{font-size:18px;line-height:1.55}
+.bloco{padding:22px 20px;border-radius:20px;border:1.5px solid var(--borda);display:flex;flex-direction:column;gap:16px}
+.bloco.bege{background:var(--cartao);border:0;gap:10px}
+.capa-livro{flex-shrink:0;width:112px;height:164px;border-radius:6px;background:var(--texto);box-shadow:0 8px 20px rgba(26,23,20,.18);padding:10px}
+.capa-livro div{height:100%;border:1px solid var(--ouro);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14px 8px 10px;text-align:center}
+.icone-quadro{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--cartao);display:flex;align-items:center;justify-content:center}
+.aviso{font-size:15px;line-height:1.45;text-align:center;color:var(--erro)}
+.carregando{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:60vh;text-align:center;color:var(--suave);font-size:17px;line-height:1.5;padding:0 12px}
+.giro{width:34px;height:34px;border-radius:50%;border:3px solid var(--trilho);border-top-color:var(--ouro);animation:giro 1s linear infinite}
+@keyframes giro{to{transform:rotate(360deg)}}
+@media (max-height:700px){.frase-bloco p{font-size:30px}.res-topo h1{font-size:54px}.tela{gap:14px}}
+@media (max-width:360px){.frase-bloco p{font-size:29px}.centro h1{font-size:34px}.itens3 div{font-size:14px}}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"><div class="tela"><div class="carregando"><div class="giro"></div><p>Abrindo o seu teste...</p></div></div></main>
+<noscript><p style="padding:24px;text-align:center">Ative o JavaScript para fazer o teste.</p></noscript>
+<script src="../config.js"></script>
+<script src="conteudo.js"></script>
+<script src="calculo.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
