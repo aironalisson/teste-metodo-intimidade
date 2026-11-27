@@ -29,6 +29,7 @@
       <span class="selo">SÓ NESTA PÁGINA</span>
       <h2>Sessão de Diagnóstico e Plano de Ação</h2>
       <p style="font-size:16px;line-height:1.5">Uma conversa ao vivo com o Airon, online, sobre a sua história. Você sai com um plano de ação escrito.</p>
+      <div class="itens" id="itens"></div>
       <div class="preco"><strong id="preco">R$197</strong><span class="suave" id="forma-txt" style="font-size:15px"></span></div>
       <button type="button" class="botao ouro" id="sim">Sim, quero a minha sessão</button>
       <div id="pix" style="display:flex;flex-direction:column;gap:12px"></div>
@@ -52,6 +53,8 @@
   var C = window.CONFIG;
   var p = '';
   $('#marca').outerHTML = MARCA;
+  ['Um retrato claro de como está a sua vida amorosa hoje', 'Um olhar sobre a sua história e o que te trouxe até aqui', 'Um plano de ação escrito, com os seus próximos passos']
+    .forEach(function (t) { $('#itens').insertAdjacentHTML('beforeend', '<div class="item">' + ITEM_OK + '<span>' + esc(t) + '</span></div>'); });
   if (C.aVistaSessao) $('#forma-txt').textContent = 'ou ' + C.aVistaSessao + ' à vista';
   $('#preco').innerHTML = C.parcelaSessao ? '<span class="parc">' + esc(C.parcelaSessao[0]) + '</span>' + esc(C.parcelaSessao[1]) : esc(C.precoSessao);
   function erro(m) { var e = $('#erro'); e.textContent = m || ''; e.classList.toggle('oculto', !m); }
