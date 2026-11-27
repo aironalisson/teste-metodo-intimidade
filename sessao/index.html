@@ -52,7 +52,7 @@
   var C = window.CONFIG;
   var p = '';
   $('#marca').outerHTML = MARCA;
-  $('#preco').textContent = C.precoSessao;
+  $('#preco').innerHTML = C.parcelaSessao ? '<span class="parc">' + esc(C.parcelaSessao[0]) + '</span>' + esc(C.parcelaSessao[1]) : esc(C.precoSessao);
   function erro(m) { var e = $('#erro'); e.textContent = m || ''; e.classList.toggle('oculto', !m); }
 
   acharPedido(function (n) {

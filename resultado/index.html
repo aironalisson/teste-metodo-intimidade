@@ -73,7 +73,7 @@
   $('#marca').outerHTML = MARCA;
   ['Teste completo de 20 frases, em uns 5 minutos', 'O livro Como faço você me amar? inteiro', 'Bônus: o guia do seu padrão em PDF']
     .forEach(function (t) { $('#itens').insertAdjacentHTML('beforeend', '<div class="item">' + ITEM_OK + '<span>' + esc(t) + '</span></div>'); });
-  $('#preco').textContent = C.preco;
+  $('#preco').innerHTML = C.parcelaTeste ? '<span class="parc">' + esc(C.parcelaTeste[0]) + '</span>' + esc(C.parcelaTeste[1]) : esc(C.preco);
   $('#pagar').textContent = 'Pagar ' + C.preco;
   $('#saida-grupo').href = C.grupoAula;
 
