@@ -6,7 +6,7 @@ window.COMPLETO = {
   "titulo": "{Nome}, vamos descobrir como você conquista o amor.",
   "itens": [
    "20 frases curtas",
-   "Uns 5 minutos",
+   "Uns 10 minutos",
    "Livro no final"
   ],
   "como_responder": "Leia a frase e toque em quanto isso acontece com você:",
