@@ -110,7 +110,8 @@
       alvo.innerHTML = '<div class="vazio"><svg width="56" height="56" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M10 8v8l6-4z" fill="#1A1714"/></svg><span>Vídeo em breve</span></div>';
       return null;
     }
-    alvo.innerHTML = '<video controls playsinline preload="metadata" src="' + esc(url) + '"></video>';
+    // #t=0.1 faz o iPhone mostrar o primeiro quadro em vez de uma tela preta
+    alvo.innerHTML = '<video controls playsinline preload="metadata" src="' + esc(url) + '#t=0.1"></video>';
     return alvo.querySelector('video');
   };
 })();
