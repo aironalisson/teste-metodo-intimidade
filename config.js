@@ -28,7 +28,7 @@ window.CONFIG = {
   vsl1: { migalhas: '', 'carrega-tudo': '', invisivel: '', 'coracao-fechado': '' },
   vsl2: '',
   vsl3: '',
-  ofertaEm: 34, // segundo do vídeo em que o cartão da oferta aparece
+  ofertaEm: 195, // segundo do vídeo em que o cartão da oferta aparece (3:15, quando o Airon começa a falar do teste e do livro)
   // Onde ela paga: 'stripe' (pagamento dentro do site) ou 'hubla' (checkout da Hubla)
   pagamento: 'hubla',
   hublaTeste: 'https://hub.la/g/S69ptmLjFHCNhdU6Gf5o', // checkout do R$49
