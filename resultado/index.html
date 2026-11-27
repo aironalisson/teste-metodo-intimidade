@@ -33,7 +33,7 @@
     <span class="selo">TESTE COMPLETO + LIVRO</span>
     <h2>Como eu conquisto as pessoas, e por que isso me machucou a vida inteira?</h2>
     <div class="itens" id="itens"></div>
-    <div class="preco"><strong id="preco">R$49</strong></div>
+    <div class="preco"><strong id="preco">R$49</strong><span class="suave" id="avista" style="font-size:15px"></span></div>
     <button type="button" class="botao ouro" id="comprar">Quero descobrir o meu padrão</button>
 
     <div id="checkout" class="oculto" style="display:flex;flex-direction:column;gap:16px">
@@ -73,6 +73,7 @@
   $('#marca').outerHTML = MARCA;
   ['Teste completo de 20 frases, em uns 5 minutos', 'O livro Como faço você me amar? inteiro', 'Bônus: o guia do seu padrão em PDF']
     .forEach(function (t) { $('#itens').insertAdjacentHTML('beforeend', '<div class="item">' + ITEM_OK + '<span>' + esc(t) + '</span></div>'); });
+  if (C.aVistaTeste) $('#avista').textContent = 'ou ' + C.aVistaTeste + ' à vista';
   $('#preco').innerHTML = C.parcelaTeste ? '<span class="parc">' + esc(C.parcelaTeste[0]) + '</span>' + esc(C.parcelaTeste[1]) : esc(C.preco);
   $('#pagar').textContent = 'Pagar ' + C.preco;
   $('#saida-grupo').href = C.grupoAula;

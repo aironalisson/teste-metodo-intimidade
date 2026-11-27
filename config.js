@@ -8,6 +8,8 @@ window.CONFIG = {
   // Preço mostrado nas ofertas (só parcelado, como está na Hubla)
   parcelaTeste: ['10x de', 'R$5,70'],
   parcelaSessao: ['12x de', 'R$19,90'],
+  aVistaTeste: 'R$48,14',
+  aVistaSessao: 'R$195,00',
   grupoAula: 'https://chat.whatsapp.com/B5rOiFK7xFdAHNfCg0r7gh',
   whatsappAiron: '5511999235360', // número com DDI e DDD, só números
   agendar: 'https://www.metodointimidade.com.br/agendar',
